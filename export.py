@@ -4,43 +4,43 @@ Export a YOLOv5 PyTorch model to other formats. TensorFlow exports authored by h
 
 Format                      | `export.py --include`         | Model
 ---                         | ---                           | ---
-PyTorch                     | -                             | yolov5s.pt
-TorchScript                 | `torchscript`                 | yolov5s.torchscript
-ONNX                        | `onnx`                        | yolov5s.onnx
-OpenVINO                    | `openvino`                    | yolov5s_openvino_model/
-TensorRT                    | `engine`                      | yolov5s.engine
-CoreML                      | `coreml`                      | yolov5s.mlmodel
-TensorFlow SavedModel       | `saved_model`                 | yolov5s_saved_model/
-TensorFlow GraphDef         | `pb`                          | yolov5s.pb
-TensorFlow Lite             | `tflite`                      | yolov5s.tflite
-TensorFlow Edge TPU         | `edgetpu`                     | yolov5s_edgetpu.tflite
-TensorFlow.js               | `tfjs`                        | yolov5s_web_model/
-PaddlePaddle                | `paddle`                      | yolov5s_paddle_model/
+PyTorch                     | -                             | best.pt
+TorchScript                 | `torchscript`                 | best.torchscript
+ONNX                        | `onnx`                        | best.onnx
+OpenVINO                    | `openvino`                    | best_openvino_model/
+TensorRT                    | `engine`                      | best.engine
+CoreML                      | `coreml`                      | best.mlmodel
+TensorFlow SavedModel       | `saved_model`                 | best_saved_model/
+TensorFlow GraphDef         | `pb`                          | best.pb
+TensorFlow Lite             | `tflite`                      | best.tflite
+TensorFlow Edge TPU         | `edgetpu`                     | best_edgetpu.tflite
+TensorFlow.js               | `tfjs`                        | best_web_model/
+PaddlePaddle                | `paddle`                      | best_paddle_model/
 
 Requirements:
     $ pip install -r requirements.txt coremltools onnx onnx-simplifier onnxruntime openvino-dev tensorflow-cpu  # CPU
     $ pip install -r requirements.txt coremltools onnx onnx-simplifier onnxruntime-gpu openvino-dev tensorflow  # GPU
 
 Usage:
-    $ python export.py --weights yolov5s.pt --include torchscript onnx openvino engine coreml tflite ...
+    $ python export.py --weights best.pt --include torchscript onnx openvino engine coreml tflite ...
 
 Inference:
-    $ python detect.py --weights yolov5s.pt                 # PyTorch
-                                 yolov5s.torchscript        # TorchScript
-                                 yolov5s.onnx               # ONNX Runtime or OpenCV DNN with --dnn
-                                 yolov5s_openvino_model     # OpenVINO
-                                 yolov5s.engine             # TensorRT
-                                 yolov5s.mlmodel            # CoreML (macOS-only)
-                                 yolov5s_saved_model        # TensorFlow SavedModel
-                                 yolov5s.pb                 # TensorFlow GraphDef
-                                 yolov5s.tflite             # TensorFlow Lite
-                                 yolov5s_edgetpu.tflite     # TensorFlow Edge TPU
-                                 yolov5s_paddle_model       # PaddlePaddle
+    $ python detect.py --weights best.pt                 # PyTorch
+                                 best.torchscript        # TorchScript
+                                 best.onnx               # ONNX Runtime or OpenCV DNN with --dnn
+                                 best_openvino_model     # OpenVINO
+                                 best.engine             # TensorRT
+                                 best.mlmodel            # CoreML (macOS-only)
+                                 best_saved_model        # TensorFlow SavedModel
+                                 best.pb                 # TensorFlow GraphDef
+                                 best.tflite             # TensorFlow Lite
+                                 best_edgetpu.tflite     # TensorFlow Edge TPU
+                                 best_paddle_model       # PaddlePaddle
 
 TensorFlow.js:
     $ cd .. && git clone https://github.com/zldrobit/tfjs-yolov5-example.git && cd tfjs-yolov5-example
     $ npm install
-    $ ln -s ../../yolov5/yolov5s_web_model public/yolov5s_web_model
+    $ ln -s ../../yolov5/best_web_model public/best_web_model
     $ npm start
 """
 
@@ -256,7 +256,7 @@ def export_torchscript(model, im, file, optimize, prefix=colorstr("TorchScript:"
         from utils.torch_utils import select_device
 
         # Load model
-        weights = 'yolov5s.pt'
+        weights = 'best.pt'
         device = select_device('')
         model = attempt_load(weights, device=device)
 
@@ -264,7 +264,7 @@ def export_torchscript(model, im, file, optimize, prefix=colorstr("TorchScript:"
         im = torch.zeros(1, 3, 640, 640).to(device)
 
         # Export model
-        file = Path('yolov5s.torchscript')
+        file = Path('best.torchscript')
         export_torchscript(model, im, file, optimize=False)
         ```
     """
@@ -316,7 +316,7 @@ def export_onnx(model, im, file, opset, dynamic, simplify, prefix=colorstr("ONNX
         from utils.torch_utils import select_device
 
         # Load model
-        weights = 'yolov5s.pt'
+        weights = 'best.pt'
         device = select_device('')
         model = attempt_load(weights, map_location=device)
 
@@ -324,7 +324,7 @@ def export_onnx(model, im, file, opset, dynamic, simplify, prefix=colorstr("ONNX
         im = torch.zeros(1, 3, 640, 640).to(device)
 
         # Export model
-        file_path = Path('yolov5s.onnx')
+        file_path = Path('best.onnx')
         export_onnx(model, im, file_path, opset=12, dynamic=True, simplify=True)
         ```
     """
@@ -409,8 +409,8 @@ def export_openvino(file, metadata, half, int8, data, prefix=colorstr("OpenVINO:
         from pathlib import Path
         from ultralytics import YOLOv5
 
-        model = YOLOv5('yolov5s.pt')
-        export_openvino(Path('yolov5s.onnx'), metadata={'names': model.names, 'stride': model.stride}, half=True,
+        model = YOLOv5('best.pt')
+        export_openvino(Path('best.onnx'), metadata={'names': model.names, 'stride': model.stride}, half=True,
                         int8=False, data='data.yaml')
         ```
 
@@ -497,7 +497,7 @@ def export_paddle(model, im, file, metadata, prefix=colorstr("PaddlePaddle:")):
         # Assume 'model' is a pre-trained YOLOv5 model and 'im' is an example input tensor
         model = ...  # Load your model here
         im = torch.randn((1, 3, 640, 640))  # Dummy input tensor for tracing
-        file = Path("yolov5s.pt")
+        file = Path("best.pt")
         metadata = {"stride": 32, "names": ["person", "bicycle", "car", "motorbike"]}
 
         export_paddle(model=model, im=im, file=file, metadata=metadata)
@@ -551,7 +551,7 @@ def export_coreml(model, im, file, int8, half, nms, mlmodel, prefix=colorstr("Co
         from models.yolo import Model
         model = Model(cfg, ch=3, nc=80)
         im = torch.randn(1, 3, 640, 640)
-        file = Path("yolov5s_coreml")
+        file = Path("best_coreml")
         export_coreml(model, im, file, int8=False, half=False, nms=True, mlmodel=False)
         ```
     """
@@ -624,9 +624,9 @@ def export_engine(
         import torch
         from pathlib import Path
 
-        model = YOLOv5('yolov5s.pt')  # Load a pre-trained YOLOv5 model
+        model = YOLOv5('best.pt')  # Load a pre-trained YOLOv5 model
         input_tensor = torch.randn(1, 3, 640, 640).cuda()  # example input tensor on GPU
-        export_path = Path('yolov5s.engine')  # export destination
+        export_path = Path('best.engine')  # export destination
 
         export_engine(model.model, input_tensor, export_path, half=True, dynamic=True, simplify=True, workspace=8, verbose=True)
         ```
@@ -936,7 +936,7 @@ def export_edgetpu(file, prefix=colorstr("Edge TPU:")):
     Example:
         ```python
         from pathlib import Path
-        file = Path('yolov5s.pt')
+        file = Path('best.pt')
         export_edgetpu(file)
         ```
     """
@@ -1131,14 +1131,14 @@ def pipeline_coreml(model, im, file, names, y, mlmodel, prefix=colorstr("CoreML 
         from pathlib import Path
         import torch
 
-        model = torch.load('yolov5s.pt')  # Load YOLOv5 model
+        model = torch.load('best.pt')  # Load YOLOv5 model
         im = torch.zeros((1, 3, 640, 640))  # Example input tensor
 
         names = {0: "person", 1: "bicycle", 2: "car", ...}  # Define class names
 
         y = model(im)  # Perform forward pass to get model output
 
-        output_file = Path('yolov5s.mlmodel')  # Convert to CoreML
+        output_file = Path('best.mlmodel')  # Convert to CoreML
         pipeline_coreml(model, im, output_file, names, y)
         ```
     """
@@ -1276,7 +1276,7 @@ def pipeline_coreml(model, im, file, names, y, mlmodel, prefix=colorstr("CoreML 
 @smart_inference_mode()
 def run(
     data=ROOT / "data/coco128.yaml",  # 'dataset.yaml path'
-    weights=ROOT / "yolov5s.pt",  # weights path
+    weights=ROOT / "best.pt",  # weights path
     imgsz=(640, 640),  # image (height, width)
     batch_size=1,  # batch size
     device="cpu",  # cuda device, i.e. 0 or 0,1,2,3 or cpu
@@ -1306,7 +1306,7 @@ def run(
 
     Args:
         data (str | Path): Path to the dataset YAML configuration file. Default is 'data/coco128.yaml'.
-        weights (str | Path): Path to the pretrained model weights file. Default is 'yolov5s.pt'.
+        weights (str | Path): Path to the pretrained model weights file. Default is 'best.pt'.
         imgsz (tuple): Image size as (height, width). Default is (640, 640).
         batch_size (int): Batch size for exporting the model. Default is 1.
         device (str): Device to run the export on, e.g., '0' for GPU, 'cpu' for CPU. Default is 'cpu'.
@@ -1342,7 +1342,7 @@ def run(
         ```python
         run(
             data="data/coco128.yaml",
-            weights="yolov5s.pt",
+            weights="best.pt",
             imgsz=(640, 640),
             batch_size=1,
             device="cpu",
@@ -1501,7 +1501,7 @@ def parse_opt(known=False):
     """
     parser = argparse.ArgumentParser()
     parser.add_argument("--data", type=str, default=ROOT / "data/coco128.yaml", help="dataset.yaml path")
-    parser.add_argument("--weights", nargs="+", type=str, default=ROOT / "yolov5s.pt", help="model.pt path(s)")
+    parser.add_argument("--weights", nargs="+", type=str, default=ROOT / "best.pt", help="model.pt path(s)")
     parser.add_argument("--imgsz", "--img", "--img-size", nargs="+", type=int, default=[640, 640], help="image (h, w)")
     parser.add_argument("--batch-size", type=int, default=1, help="batch size")
     parser.add_argument("--device", default="cpu", help="cuda device, i.e. 0 or 0,1,2,3 or cpu")
