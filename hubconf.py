@@ -4,8 +4,8 @@ PyTorch Hub models https://pytorch.org/hub/ultralytics_yolov5.
 
 Usage:
     import torch
-    model = torch.hub.load('ultralytics/yolov5', 'yolov5s')  # official model
-    model = torch.hub.load('ultralytics/yolov5:master', 'yolov5s')  # from branch
+    model = torch.hub.load('ultralytics/yolov5', 'best')  # official model
+    model = torch.hub.load('ultralytics/yolov5:master', 'best')  # from branch
     model = torch.hub.load('ultralytics/yolov5', 'custom', 'best.pt')  # custom/local model
     model = torch.hub.load('.', 'custom', 'best.pt', source='local')  # local repo
 """
@@ -18,7 +18,7 @@ def _create(name, pretrained=True, channels=3, classes=80, autoshape=True, verbo
     Creates or loads a YOLOv5 model, with options for pretrained weights and model customization.
 
     Args:
-        name (str): Model name (e.g., 'yolov5s') or path to the model checkpoint (e.g., 'path/to/best.pt').
+        name (str): Model name (e.g., 'best') or path to the model checkpoint (e.g., 'path/to/best.pt').
         pretrained (bool, optional): If True, loads pretrained weights into the model. Defaults to True.
         channels (int, optional): Number of input channels the model expects. Defaults to 3.
         classes (int, optional): Number of classes the model is expected to detect. Defaults to 80.
@@ -35,14 +35,14 @@ def _create(name, pretrained=True, channels=3, classes=80, autoshape=True, verbo
         import torch
         from ultralytics import _create
 
-        # Load an official YOLOv5s model with pretrained weights
-        model = _create('yolov5s')
+        # Load an official best model with pretrained weights
+        model = _create('best')
 
         # Load a custom model from a local checkpoint
         model = _create('path/to/custom_model.pt', pretrained=False)
 
         # Load a model with specific input channels and classes
-        model = _create('yolov5s', channels=1, classes=10)
+        model = _create('best', channels=1, classes=10)
         ```
 
     Notes:
@@ -173,9 +173,9 @@ def yolov5n(pretrained=True, channels=3, classes=80, autoshape=True, _verbose=Tr
     return _create("yolov5n", pretrained, channels, classes, autoshape, _verbose, device)
 
 
-def yolov5s(pretrained=True, channels=3, classes=80, autoshape=True, _verbose=True, device=None):
+def best(pretrained=True, channels=3, classes=80, autoshape=True, _verbose=True, device=None):
     """
-    Create a YOLOv5-small (yolov5s) model with options for pretraining, input channels, class count, autoshaping,
+    Create a YOLOv5-small (best) model with options for pretraining, input channels, class count, autoshaping,
     verbosity, and device configuration.
 
     Args:
@@ -196,10 +196,10 @@ def yolov5s(pretrained=True, channels=3, classes=80, autoshape=True, _verbose=Tr
         import torch
 
         # Load the official YOLOv5-small model with pretrained weights
-        model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
+        model = torch.hub.load('ultralytics/yolov5', 'best')
 
         # Load the YOLOv5-small model from a specific branch
-        model = torch.hub.load('ultralytics/yolov5:master', 'yolov5s')
+        model = torch.hub.load('ultralytics/yolov5:master', 'best')
 
         # Load a custom YOLOv5-small model from a local checkpoint
         model = torch.hub.load('ultralytics/yolov5', 'custom', 'best.pt')
@@ -212,7 +212,7 @@ def yolov5s(pretrained=True, channels=3, classes=80, autoshape=True, _verbose=Tr
         For more details on model loading and customization, visit
         the [YOLOv5 PyTorch Hub Documentation](https://pytorch.org/hub/ultralytics_yolov5).
     """
-    return _create("yolov5s", pretrained, channels, classes, autoshape, _verbose, device)
+    return _create("best", pretrained, channels, classes, autoshape, _verbose, device)
 
 
 def yolov5m(pretrained=True, channels=3, classes=80, autoshape=True, _verbose=True, device=None):
@@ -338,7 +338,7 @@ def yolov5n6(pretrained=True, channels=3, classes=80, autoshape=True, _verbose=T
     return _create("yolov5n6", pretrained, channels, classes, autoshape, _verbose, device)
 
 
-def yolov5s6(pretrained=True, channels=3, classes=80, autoshape=True, _verbose=True, device=None):
+def best6(pretrained=True, channels=3, classes=80, autoshape=True, _verbose=True, device=None):
     """
     Instantiate the YOLOv5-small-P6 model with options for pretraining, input channels, number of classes, autoshaping,
     verbosity, and device selection.
@@ -360,10 +360,10 @@ def yolov5s6(pretrained=True, channels=3, classes=80, autoshape=True, _verbose=T
         ```python
         import torch
 
-        model = torch.hub.load('ultralytics/yolov5', 'yolov5s6')
-        model = torch.hub.load('ultralytics/yolov5:master', 'yolov5s6')  # load from a specific branch
-        model = torch.hub.load('ultralytics/yolov5', 'custom', 'path/to/yolov5s6.pt')  # custom/local model
-        model = torch.hub.load('.', 'custom', 'path/to/yolov5s6.pt', source='local')  # local repo model
+        model = torch.hub.load('ultralytics/yolov5', 'best6')
+        model = torch.hub.load('ultralytics/yolov5:master', 'best6')  # load from a specific branch
+        model = torch.hub.load('ultralytics/yolov5', 'custom', 'path/to/best6.pt')  # custom/local model
+        model = torch.hub.load('.', 'custom', 'path/to/best6.pt', source='local')  # local repo model
         ```
 
     Notes:
@@ -373,7 +373,7 @@ def yolov5s6(pretrained=True, channels=3, classes=80, autoshape=True, _verbose=T
         Exception: If there is an error during model creation or loading, with a suggestion to visit the YOLOv5
             tutorials for help.
     """
-    return _create("yolov5s6", pretrained, channels, classes, autoshape, _verbose, device)
+    return _create("best6", pretrained, channels, classes, autoshape, _verbose, device)
 
 
 def yolov5m6(pretrained=True, channels=3, classes=80, autoshape=True, _verbose=True, device=None):
@@ -484,7 +484,7 @@ if __name__ == "__main__":
 
     # Argparser
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model", type=str, default="yolov5s", help="model name")
+    parser.add_argument("--model", type=str, default="best", help="model name")
     opt = parser.parse_args()
     print_args(vars(opt))
 
