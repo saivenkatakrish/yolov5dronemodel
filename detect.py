@@ -3,7 +3,7 @@
 Run YOLOv5 detection inference on images, videos, directories, globs, YouTube, webcam, streams, etc.
 
 Usage - sources:
-    $ python detect.py --weights yolov5s.pt --source 0                               # webcam
+    $ python detect.py --weights best.pt --source 0                               # webcam
                                                      img.jpg                         # image
                                                      vid.mp4                         # video
                                                      screen                          # screenshot
@@ -15,7 +15,7 @@ Usage - sources:
                                                      'rtsp://example.com/media.mp4'  # RTSP, RTMP, HTTP stream
 
 Usage - formats:
-    $ python detect.py --weights yolov5s.pt                 # PyTorch
+    $ python detect.py --weights best.pt                 # PyTorch
                                  yolov5s.torchscript        # TorchScript
                                  yolov5s.onnx               # ONNX Runtime or OpenCV DNN with --dnn
                                  yolov5s_openvino_model     # OpenVINO
@@ -68,7 +68,7 @@ from utils.torch_utils import select_device, smart_inference_mode
 
 @smart_inference_mode()
 def run(
-    weights=ROOT / "yolov5s.pt",  # model path or triton URL
+    weights=ROOT / "best.pt",  # model path or triton URL
     source=ROOT / "data/images",  # file/dir/URL/glob/screen/0(webcam)
     data=ROOT / "data/coco128.yaml",  # dataset.yaml path
     imgsz=(640, 640),  # inference size (height, width)
@@ -102,7 +102,7 @@ def run(
     Runs YOLOv5 detection inference on various sources like images, videos, directories, streams, etc.
 
     Args:
-        weights (str | Path): Path to the model weights file or a Triton URL. Default is 'yolov5s.pt'.
+        weights (str | Path): Path to the model weights file or a Triton URL. Default is 'best.pt'.
         source (str | Path): Input source, which can be a file, directory, URL, glob pattern, screen capture, or webcam
             index. Default is 'data/images'.
         data (str | Path): Path to the dataset YAML file. Default is 'data/coco128.yaml'.
@@ -142,10 +142,10 @@ def run(
         from ultralytics import run
 
         # Run inference on an image
-        run(source='data/images/example.jpg', weights='yolov5s.pt', device='0')
+        run(source='data/images/example.jpg', weights='best.pt', device='0')
 
         # Run inference on a video with specific confidence threshold
-        run(source='data/videos/example.mp4', weights='yolov5s.pt', conf_thres=0.4, device='0')
+        run(source='data/videos/example.mp4', weights='best.pt', conf_thres=0.4, device='0')
         ```
     """
     source = str(source)
@@ -326,7 +326,7 @@ def parse_opt():
     Parse command-line arguments for YOLOv5 detection, allowing custom inference options and model configurations.
 
     Args:
-        --weights (str | list[str], optional): Model path or Triton URL. Defaults to ROOT / 'yolov5s.pt'.
+        --weights (str | list[str], optional): Model path or Triton URL. Defaults to ROOT / 'best.pt'.
         --source (str, optional): File/dir/URL/glob/screen/0(webcam). Defaults to ROOT / 'data/images'.
         --data (str, optional): Dataset YAML path. Provides dataset configuration information.
         --imgsz (list[int], optional): Inference size (height, width). Defaults to [640].
@@ -366,7 +366,7 @@ def parse_opt():
         ```
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument("--weights", nargs="+", type=str, default=ROOT / "yolov5s.pt", help="model path or triton URL")
+    parser.add_argument("--weights", nargs="+", type=str, default=ROOT / "best.pt", help="model path or triton URL")
     parser.add_argument("--source", type=str, default=ROOT / "data/images", help="file/dir/URL/glob/screen/0(webcam)")
     parser.add_argument("--data", type=str, default=ROOT / "data/coco128.yaml", help="(optional) dataset.yaml path")
     parser.add_argument("--imgsz", "--img", "--img-size", nargs="+", type=int, default=[640], help="inference size h,w")
