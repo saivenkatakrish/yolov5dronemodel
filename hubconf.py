@@ -11,6 +11,10 @@ Usage:
 """
 
 import torch
+import pathlib
+if hasattr(pathlib, 'WindowsPath'):
+    pathlib.PosixPath = pathlib.WindowsPath
+
 
 
 def _create(name, pretrained=True, channels=3, classes=80, autoshape=True, verbose=True, device=None):
