@@ -49,7 +49,8 @@ def _create(name, pretrained=True, channels=3, classes=80, autoshape=True, verbo
         For more information on model loading and customization, visit the
         [YOLOv5 PyTorch Hub Documentation](https://docs.ultralytics.com/yolov5/tutorials/pytorch_hub_model_loading).
     """
-    from pathlib import Path
+    from pathlib import WindowsPath as Path
+
 
     from models.common import AutoShape, DetectMultiBackend
     from models.experimental import attempt_load
@@ -475,7 +476,8 @@ def yolov5x6(pretrained=True, channels=3, classes=80, autoshape=True, _verbose=T
 
 if __name__ == "__main__":
     import argparse
-    from pathlib import Path
+    from pathlib import WindowsPath as Path
+
 
     import numpy as np
     from PIL import Image
